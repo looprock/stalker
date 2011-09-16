@@ -36,7 +36,7 @@ else:
 
 libdir = "/var/lib/stalker/"
 sdb = libdir + "stalker.db"
-showdebug = 'T'
+showdebug = 'F'
 def_timeout = parser.get('default', 'timeout').strip('"')
 
 def debug(showdebug, string):
@@ -185,17 +185,6 @@ def currdata():
 	if tests == 'F':
 		sys.exit('ERROR: no  tests are enabled!')
 	return tmp
-
-#collector notes
-#https://code.google.com/p/psutil/		
-#def strace(pid, log_file, time_span=30):
-#	strace_cmd = ['strace', '-f', '-c', '-p', str(pid), '-o', log_file]
-#	proc = subprocess.Popen(strace_cmd)
-#	time.sleep(time_span)
-#	os.kill(proc.pid, 3)
-#
-# get the top 5 process main PIDs to strace
-# ps auxf | awk '!/\_/&&/^[a-z]/ {print $2,$3,$11}' | sort -nr -k 2 | head -n 5
 
 data = currdata()
 prev = run_query(sdb, "select * from stalk")
