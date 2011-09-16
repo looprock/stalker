@@ -1,0 +1,17 @@
+# [default]
+# mem_timeout, cpu_timeout and mysql_timeout all inherit this value if not specified:
+timeout = "10"
+max_alarms = "3"
+cpu_stalk = "T"
+# if you don't set this value the script will use .75 x the number of processors in the system as the high water mark
+#cpu_high = "0.001"
+#cpu_timeout = "10"
+mem_stalk = "T"
+mem_free_low_percent = "20"
+#mem_timeout = "10"
+mysql_stalk = "F"
+mysql_admin = "/usr/bin/mysqladmin"
+mysql_args = ""
+mysql_max_threads = "200"
+collector_timeout = "60"
+collector = "/usr/local/bin/collector 1 1"

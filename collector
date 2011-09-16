@@ -1,0 +1,50 @@
+#!/bin/sh
+if [ ! "${2}" ]; then
+   echo "Usage: $0 <number of times to run> <minutes between>"
+   exit 0
+fi
+
+start=0
+sleeptime=`expr $2 \\* 60`
+
+getstats() {
+  echo "executing: top -b -n1"
+  /usr/bin/top -b -n1 > ${1}/top.txt
+  echo "executing: /bin/netstat -ant"
+  /bin/netstat -ant > ${1}/netstat.txt
+  echo "executing: /usr/bin/vmstat 1 10"
+  /usr/bin/vmstat 1 10 > ${1}/vmstat.txt
+  echo "executing: /usr/bin/mpstat -P ALL 1 10"
+  /usr/bin/mpstat -P ALL 1 10 > ${1}/mpstat.txt
+  echo "executing: sar -I XALL  1 10"
+  /usr/bin/sar -I XALL  1 10 > ${1}/sarirq.txt
+  echo "executing: /bin/ps auwx"
+  /bin/ps auwx > ${1}/ps.txt
+  echo "executing: /usr/bin/free"
+  /usr/bin/free > ${1}/free.txt
+  echo "executing: iostat -x 1 10"
+  /usr/bin/iostat -x 1 10 ${1}/iostat.txt
+}
+
+until [ $start = $1 ]
+do
+   thedate=`/bin/date '+%Y%m%d%H%M%S'`
+   echo "#### Run started: `/bin/date`"
+   collectdir=/tmp/collector-${thedate}
+   if [ -d ${collectdir} ]; then
+     /bin/rm -rf ${collectdir}
+     echo "found: ${collectdir} - very odd, but deleting it"
+   fi
+   /bin/mkdir -v ${collectdir}
+   echo "recording: /sbin/sysctl -a into ${collectdir}"
+   /sbin/sysctl -a > ${collectdir}/sysctl.txt
+   getstats ${collectdir}
+   start=`expr $start + 1`
+   if [ $start == $1 ]; then
+        echo "recording: /usr/sbin/lsof into ${collectdir}"
+        /usr/sbin/lsof > ${collectdir}/lsof.txt
+   else
+	echo "sleeping: ${sleeptime} minutes"
+        sleep $sleeptime
+   fi
+done
