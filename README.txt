@@ -1,12 +1,19 @@
 About:
 
-I wrote stalker.py based on the inspiration from the stalk and collect scripts from aspsersa (https://code.google.com/p/aspersa/). I liked the concept, but I wanted something I could run via cron across all servers so I could capture their states when they had issues without having to anticpate when they would have issues. stalker.py maintains an sqlite database for data persistence across runs, and once an issue exceeds max_alarms, the collection will be triggered. 
+I wrote stalker.py based on the inspiration from the stalk and collect scripts from aspsersa (https://code.google.com/p/aspersa/). I liked the concept, but I wanted something I could run via cron across all servers so I could capture their states when they had issues without having to anticpate when that would be. stalker.py maintains an sqlite database for data persistence between runs, and once an issue exceeds max_alarms, a collection is triggered. 
 
 I've included toggles for a cpu threshold, free memory threshold, and a mysql threads threshold that can all be enabled and disabled via the config, /etc/stalker/stalker.cnf. 
 
 /etc/stalker/stalker.cnf looks something like this:
 
 [default]
+# Error notification mail settings
+# your smtp server
+mailhost = "localhost"
+# who the mail is addressed from
+mailfrom = "stalker@yourcompany.com"
+# address notifications get sent to
+mailto = "ops@yourcompany.com"
 # mem_timeout, cpu_timeout and mysql_timeout all inherit this value if not specified:
 timeout = "10"
 max_alarms = "3"

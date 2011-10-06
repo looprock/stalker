@@ -1,4 +1,11 @@
 # [default]
+# Error notification mail settings
+# your smtp server
+mailhost = "localhost"
+# who the mail is addressed from
+mailfrom = "stalker@yourcompany.com"
+# address notifications get sent to
+mailto = "ops@yourcompany.com"
 # mem_timeout, cpu_timeout and mysql_timeout all inherit this value if not specified:
 timeout = "10"
 max_alarms = "3"
