@@ -8,7 +8,7 @@ from ConfigParser import SafeConfigParser
 from email.MIMEText import MIMEText
 
 
-stconfig = os.path.expanduser("/etc/stalker/stalker.cnf")
+stconfig = "/etc/stalker/stalker.cnf"
 if os.path.exists(stconfig):
    parser = SafeConfigParser()
    parser.read(stconfig)
