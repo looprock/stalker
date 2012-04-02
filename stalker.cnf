@@ -1,4 +1,4 @@
-# [default]
+[default]
 # Error notification mail settings
 # your smtp server
 mailhost = "localhost"
