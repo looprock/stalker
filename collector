@@ -30,7 +30,9 @@ until [ $start = $1 ]
 do
    thedate=`/bin/date '+%Y%m%d%H%M%S'`
    echo "#### Run started: `/bin/date`"
-   collectdir=/tmp/collector-${thedate}
+   collectroot="/data/collector"
+   collectref="collector-${thedate}"
+   collectdir=${collectroot}/${collectref}
    if [ -d ${collectdir} ]; then
      /bin/rm -rf ${collectdir}
      echo "found: ${collectdir} - very odd, but deleting it"
@@ -47,4 +49,6 @@ do
 	echo "sleeping: ${sleeptime} minutes"
         sleep $sleeptime
    fi
+   tar -cf ${collectref}.tar ${collectref}
+   gzip ${collectref}.tar
 done
