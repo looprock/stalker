@@ -23,7 +23,7 @@ getstats() {
   echo "executing: /usr/bin/free"
   /usr/bin/free > ${1}/free.txt
   echo "executing: iostat -x 1 10"
-  /usr/bin/iostat -x 1 10 ${1}/iostat.txt
+  /usr/bin/iostat -x 1 10 > ${1}/iostat.txt
 }
 
 until [ $start = $1 ]
