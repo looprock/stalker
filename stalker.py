@@ -3,7 +3,10 @@
 # it was written to allow it to run from cron instead of in a screen session
 
 import os, sys, subprocess, shlex, time, re, datetime, time, signal, smtplib
-from sqlite import *
+if sys.version_info >= (2,5):
+	import sqlite3
+else:
+	from pysqlite2 import dbapi2 as sqlite3
 from ConfigParser import SafeConfigParser
 from email.MIMEText import MIMEText
 
@@ -125,7 +128,7 @@ if not os.path.exists(libdir):
 	os.makedirs(libdir)
 	
 if not os.path.exists(sdb):
-	conn = connect(sdb)
+	conn = sqlite3.connect(sdb)
 	cur = conn.cursor()
 	cur.execute('CREATE TABLE stalk (test VARCHAR(8), result INT(1))')
 	conn.commit()
@@ -133,7 +136,7 @@ if not os.path.exists(sdb):
 
 # just assume we'll need to talk to the db after this:
 try:
-	conn = connect(sdb)
+	conn = sqlite3.connect(sdb)
 except:
 	message = "Unable to open database file: %s!" % (sdb)
 	mailalert(message, "F")
